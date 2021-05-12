@@ -9,12 +9,12 @@ std::string as_string(const unsigned char* start, size_t len) {
 }
 
 // Test
-test::test(std::string output)
+test::test(std::string output): output(output)
 {
 
 }
 
-test::test(std::string input, std::string output)
+test::test(std::string output, std::string input): output(output), input(input)
 {
 
 }

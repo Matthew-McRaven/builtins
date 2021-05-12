@@ -26,7 +26,7 @@ enum class element_type
 struct test
 {
 	test(std::string output);
-	test(std::string input, std::string output);
+	test(std::string output, std::string input);
 
 	std::optional<std::string> input;
 	std::string output;
