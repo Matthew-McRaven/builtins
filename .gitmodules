@@ -1,3 +1,0 @@
-[submodule "dependencies/incbin"]
-	path = dependencies/incbin
-	url = https://gitlab.com/pep10/incbin.git
