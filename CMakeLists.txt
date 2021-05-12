@@ -14,7 +14,6 @@ file(GLOB_RECURSE sources CONFIGURE_DEPENDS "pep9/**/reg.cpp" "pep10/**/reg.cpp"
 set_property(SOURCE ${sources} APPEND PROPERTY  GENERATED)
 
 add_library (builtins OBJECT ${sources} dependencies/incbin/incbin.c)
-add_dependencies(builtins pygen)
 target_include_directories(builtins PUBLIC dependencies/incbin "${PROJECT_SOURCE_DIR}/src")
 
 include("dependencies/incbin/IncBinMacro.cmake")
