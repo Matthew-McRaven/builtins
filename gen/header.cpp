@@ -1,5 +1,3 @@
-#include "incbin.h"
-
 #include <map>
 #include <iostream>
 #include "helper.hpp"

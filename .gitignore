@@ -2,3 +2,4 @@
 .vscode
 build
 **/reg.cpp
+gen_*.h
