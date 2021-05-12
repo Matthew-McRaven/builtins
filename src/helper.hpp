@@ -12,9 +12,7 @@
 #define stx(A) #A
 #define st(A) stx(A)
 
-std::string as_string(const unsigned char* start, const unsigned char* end) {
-	std::string(reinterpret_cast< const char* >(start), end-start);
-}
+std::string as_string(const unsigned char* start, size_t len);
 
 enum class element_type
 {
