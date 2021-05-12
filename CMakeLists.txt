@@ -13,12 +13,8 @@ execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/gen/ge
 file(GLOB_RECURSE sources CONFIGURE_DEPENDS "pep9/**/reg.cpp" "pep10/**/reg.cpp" "riscv/**/reg.cpp" "src/*.cpp")
 set_property(SOURCE ${sources} APPEND PROPERTY  GENERATED)
 
-add_library (builtins OBJECT ${sources} dependencies/incbin/incbin.c)
-target_include_directories(builtins PUBLIC dependencies/incbin "${PROJECT_SOURCE_DIR}/src")
-
-include("dependencies/incbin/IncBinMacro.cmake")
-# Read CMake output of this.
-move_incbin_to_destination( "${CMAKE_CURRENT_SOURCE_DIR}/pep10" "${CMAKE_CURRENT_BINARY_DIR}/pep10" RECURSE)
+add_library (builtins OBJECT ${sources})
+target_include_directories(builtins PUBLIC "${PROJECT_SOURCE_DIR}/src")
 
 enable_testing()
 add_subdirectory(test)
