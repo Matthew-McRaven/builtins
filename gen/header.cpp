@@ -1,9 +1,10 @@
 #include "incbin.h"
 
 #include <map>
+#include <iostream>
 #include "helper.hpp"
 
-#define proc {proc_name}
-#define chapter {ch_num}
-#define fig_number {fig_num}
-#define name {dir_name}
+#define __proc {proc_name}
+#define __chapter {ch_num}
+#define __fig_number {fig_num}
+#define __name {dir_name}
