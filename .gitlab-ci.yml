@@ -1,28 +1,17 @@
 image: docker:19
 
 stages:
-- build dependencies
-- build library
 - test
 
 variables:
   BUILD_VERSION: v0.4.0
-
-Build Boost and Emscripten:
-  stage: build dependencies
-  needs: []
-  script:
-    - docker login -u $CI_REGISTRY_USER -p $CI_REGISTRY_PASSWORD $CI_REGISTRY
-    - cd ./dependencies
-    - (docker pull registry.gitlab.com/pep10/libsim/emboost:${BUILD_VERSION} && echo success) || (docker build -t registry.gitlab.com/pep10/libsim/emboost:$BUILD_VERSION . ) 
-    - docker push registry.gitlab.com/pep10/libsim/emboost:$BUILD_VERSION
 
 Test C++ bindings:
   variables:
     GIT_SUBMODULE_STRATEGY: recursive
   stage: test
   image: registry.gitlab.com/pep10/libsim/emboost:${BUILD_VERSION}
-  needs: [Build Boost and Emscripten]
+  needs: []
   script:
     - source /emsdk/emsdk_env.sh
     - export CXX=$(which clang++)
