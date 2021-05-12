@@ -1,6 +1,8 @@
 import os 
+from pathlib import Path
 
 def generate(dir_name, path):
+	helpers_path = Path(__file__).parent.absolute()
 	try:
 		ch_fig = int(dir_name[0:4])
 		ch, fig = ch_fig // 100, ch_fig % 100
@@ -14,8 +16,8 @@ def generate(dir_name, path):
 		if os.path.exists(os.path.join(path, f"{dir_name}.peph")): defines.append("#define has_peph")
 		if os.path.exists(os.path.join(path, f"{dir_name}.pepo")): defines.append("#define has_pepo")
 
-		with open("header.cpp", "r") as header: header_text = header.read()
-		with open("body.cpp", "r") as body: body_text = body.read()
+		with open(helpers_path/"header.cpp", "r") as header: header_text = header.read()
+		with open(helpers_path/"body.cpp", "r") as body: body_text = body.read()
 		header_text = header_text.format(ch_num=ch, proc_name="pep10", fig_num=fig, dir_name = dir_name)
 		body_text = body_text.format(dir_name = dir_name)
 		with open(os.path.join(path, "reg.cpp"), "w") as out_file:
@@ -29,7 +31,9 @@ def generate(dir_name, path):
 	files = {}
 
 def main():
-	root = '../pep10'
+	path = Path(__file__)
+	root = path.parent.absolute() / "../pep10"
+	print(root)
 	immediate_children = next(os.walk(root))[1]
 	for directory in immediate_children:
 		generate(directory, os.path.join(root, directory))
