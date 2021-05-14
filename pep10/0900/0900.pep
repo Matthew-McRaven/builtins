@@ -219,14 +219,14 @@ setAddr: LDBX    oldIR4,s    ;X <- old instruction register
          ANDX    0x0007,i    ;Keep only the addressing mode bits
          ASLX                ;Two bytes per address
          BR      addrJT,x    
-addrJT:  .ADDRSS addrI       ;Immediate addressing
-         .ADDRSS addrD       ;Direct addressing
-         .ADDRSS addrN       ;Indirect addressing
-         .ADDRSS addrS       ;Stack-relative addressing
-         .ADDRSS addrSF      ;Stack-relative deferred addressing
-         .ADDRSS addrX       ;Indexed addressing
-         .ADDRSS addrSX      ;Stack-indexed addressing
-         .ADDRSS addrSFX     ;Stack-deferred indexed addressing
+addrJT:  .WORD addrI       ;Immediate addressing
+         .WORD addrD       ;Direct addressing
+         .WORD addrN       ;Indirect addressing
+         .WORD addrS       ;Stack-relative addressing
+         .WORD addrSF      ;Stack-relative deferred addressing
+         .WORD addrX       ;Indexed addressing
+         .WORD addrSX      ;Stack-indexed addressing
+         .WORD addrSFX     ;Stack-deferred indexed addressing
 ;
 addrI:   LDWX    oldPC4,s    ;Immediate addressing
          SUBX    2,i         ;Oprnd = OprndSpec
@@ -287,16 +287,16 @@ addrSFX: LDWX    oldPC4,s    ;Stack-deferred indexed addressing
 ;
 ;******* System Call Jump Tables
 ;Unary System Call Jump Table
-USCJT:   .ADDRSS SYUNOP
-EUSCJT:  .ADDRSS trapErr
+USCJT:   .WORD SYUNOP
+EUSCJT:  .WORD trapErr
 ;
 ;Nonunary System Call Jump Table
-SCJT:    .ADDRSS SYNOP
-         .ADDRSS DECI
-         .ADDRSS DECO
-         .ADDRSS HEXO
-         .ADDRSS STRO
-ESCJT:   .ADDRSS trapErr
+SCJT:    .WORD SYNOP
+         .WORD DECI
+         .WORD DECO
+         .WORD HEXO
+         .WORD STRO
+ESCJT:   .WORD trapErr
 ;
 ;******* SYUNOP
 ;The unary no-operation system call.
@@ -356,9 +356,9 @@ do:      LDBA    charIn,d    ;Get asciiCh
          ASLX                ;Two bytes per address
          BR      stateJT,x   
 ;
-stateJT: .ADDRSS sInit       
-         .ADDRSS sSign       
-         .ADDRSS sDigit      
+stateJT: .WORD sInit       
+         .WORD sSign       
+         .WORD sDigit      
 ;
 sInit:   CPBA    '+',i       ;if (asciiCh == '+')
          BRNE    ifMinus     
@@ -634,14 +634,14 @@ prntMore:LDBA    msgAddr,sfx ;Test next char
 exitPrnt:RET                 
 ;
 ;******* Vectors for system memory map
-         .ADDRSS osRAM       ;User stack pointer
-         .ADDRSS wordTemp    ;System stack pointer
-         .ADDRSS diskIn      ;Memory-mapped disk input device
-         .ADDRSS charIn      ;Memory-mapped input device
-         .ADDRSS charOut     ;Memory-mapped output device
-         .ADDRSS pwrOff      ;Memory-mapped power off device
-         .ADDRSS start       ;Entry point program counter
-         .ADDRSS loader      ;Loader program counter
-         .ADDRSS trap        ;Trap program counter
+         .WORD osRAM       ;User stack pointer
+         .WORD wordTemp    ;System stack pointer
+         .WORD diskIn      ;Memory-mapped disk input device
+         .WORD charIn      ;Memory-mapped input device
+         .WORD charOut     ;Memory-mapped output device
+         .WORD pwrOff      ;Memory-mapped power off device
+         .WORD start       ;Entry point program counter
+         .WORD loader      ;Loader program counter
+         .WORD trap        ;Trap program counter
 ;
          .END                  
