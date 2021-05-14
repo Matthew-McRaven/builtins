@@ -3,3 +3,4 @@
 build
 **/reg.cpp
 gen_*.h
+reg_*.cpp

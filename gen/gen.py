@@ -1,7 +1,7 @@
 import os 
 from pathlib import Path
 import subprocess
-def generate(dir_name, path):
+def generate_figure(dir_name, path):
 	helpers_path = Path(__file__).parent.absolute()
 	path = Path(path)
 	try:
@@ -10,35 +10,19 @@ def generate(dir_name, path):
 		if ch > 10: return
 
 		defines = []
-		if os.path.exists(os.path.join(path, f"{dir_name}.pep")): 
-			defines.append("#define has_pep")
-			defines.append('#include "./gen_pep.h"')
-			subprocess.run(["xxd", "-i", f"{dir_name}.pep", f"gen_pep.h"], cwd=path)
-			
-		if os.path.exists(os.path.join(path, f"{dir_name}.pepl")):
-			defines.append("#define has_pepl")
-			defines.append('#include "./gen_pepl.h"')
-			subprocess.run(["xxd", "-i", f"{dir_name}.pepl", f"gen_pepl.h"], cwd=path)
+		def generate(extension):
+			ret = []
+			ret.append(f"#define has_{extension}")
+			ret.append(f'#include "./gen_{extension}.h"')
+			subprocess.run(["xxd", "-i", f"{dir_name}.{extension}", f"gen_{extension}.h"], cwd=path)
+			return ret
 
-		if os.path.exists(os.path.join(path, f"{dir_name}.c")):
-			defines.append("#define has_c")
-			defines.append('#include "./gen_c.h"')
-			subprocess.run(["xxd", "-i", f"{dir_name}.c", f"gen_c.h"], cwd=path)
-
-		if os.path.exists(os.path.join(path, f"{dir_name}.pepb")):
-			defines.append("#define has_pepb")
-			defines.append('#include "./gen_pepb.h"')
-			subprocess.run(["xxd", "-i", f"{dir_name}.pepb", f"gen_pepb.h"], cwd=path)
-
-		if os.path.exists(os.path.join(path, f"{dir_name}.peph")):
-			defines.append("#define has_peph")
-			defines.append('#include "./gen_peph.h"')
-			subprocess.run(["xxd", "-i", f"{dir_name}.peph", f"gen_peph.h"], cwd=path)
-
-		if os.path.exists(os.path.join(path, f"{dir_name}.pepo")):
-			defines.append("#define has_pepo")
-			defines.append('#include "./gen_pepo.h"')
-			subprocess.run(["xxd", "-i", f"{dir_name}.pepo", f"gen_pepo.h"], cwd=path)
+		if os.path.exists(path/"{dir_name}.pep"): defines.extend(generate("pep"))
+		if os.path.exists(path/f"{dir_name}.pepl"): defines.extend(generate("pepl"))
+		if os.path.exists(path/f"{dir_name}.c"): defines.extend(generate("c"))
+		if os.path.exists(path/f"{dir_name}.pepb"): defines.extend(generate("pepb"))
+		if os.path.exists(path/f"{dir_name}.peph"): defines.extend(generate("peph"))
+		if os.path.exists(path/f"{dir_name}.pepo"): defines.extend(generate("pepo"))
 
 
 		for ctr in range(1000):
@@ -66,13 +50,37 @@ def generate(dir_name, path):
 	except ValueError: return
 	files = {}
 
+def generate_file(file_path):
+	if file_path.suffix != ".pepm": return
+	helpers_path = Path(__file__).parent.absolute()
+	def generate(macro_name):
+		ret = []
+		ret.append(f'#include "./gen_{macro_name}.h"')
+		subprocess.run(["xxd", "-i", f"{macro_name}.pepm", f"gen_{macro_name}.h"], cwd=file_path.parent)
+		return ret
+	macro_name = file_path.with_suffix("").name
+	defines = generate(macro_name)
+	with open(helpers_path/"macro.cpp", "r") as body: body_text = body.read()
+	body_text = body_text.format(macro_name = macro_name)
+	with open(file_path.parent/f"reg_{macro_name}.cpp", "w") as out_file:
+		for line in defines: out_file.write(line+"\n")
+		out_file.write(body_text)
+
+def generate_macro(directory, path):
+	# Must recurse through subdirs to find macros ending in .pepm
+	_1, directories, files = next(os.walk(path))
+	# Generate CPP files for current files
+	for f in files: generate_file(path/f)
+	for directory in directories: generate_macro(path/directory, path/directory)
+
 def main():
 	path = Path(__file__)
 	root = path.parent.absolute() / "../pep10"
 	print(root)
 	immediate_children = next(os.walk(root))[1]
 	for directory in immediate_children:
-		generate(directory, os.path.join(root, directory))
+		if "macro" in directory: generate_macro(directory, root/directory)
+		else: generate_figure(directory, root/directory)
 
 if __name__ == "__main__":
 	main()
