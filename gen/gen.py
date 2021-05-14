@@ -17,7 +17,7 @@ def generate_figure(dir_name, path):
 			subprocess.run(["xxd", "-i", f"{dir_name}.{extension}", f"gen_{extension}.h"], cwd=path)
 			return ret
 
-		if os.path.exists(path/"{dir_name}.pep"): defines.extend(generate("pep"))
+		if os.path.exists(path/f"{dir_name}.pep"): defines.extend(generate("pep"))
 		if os.path.exists(path/f"{dir_name}.pepl"): defines.extend(generate("pepl"))
 		if os.path.exists(path/f"{dir_name}.c"): defines.extend(generate("c"))
 		if os.path.exists(path/f"{dir_name}.pepb"): defines.extend(generate("pepb"))
