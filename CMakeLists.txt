@@ -10,7 +10,7 @@ set(CMAKE_CXX_STANDARD_REQUIRED True)
 execute_process(COMMAND ${PYTHON_EXECUTABLE} "${CMAKE_CURRENT_SOURCE_DIR}/gen/gen.py")
 
 # All files must be specified on the same line, or sources will be reset.
-file(GLOB_RECURSE sources CONFIGURE_DEPENDS "pep9/**/reg.cpp" "pep10/**/reg.cpp" "riscv/**/reg.cpp" "src/*.cpp")
+file(GLOB_RECURSE sources CONFIGURE_DEPENDS "pep9/**/reg.cpp" "pep10/**/reg*.cpp" "riscv/**/reg.cpp" "src/*.cpp")
 set_property(SOURCE ${sources} APPEND PROPERTY  GENERATED)
 
 add_library (builtins OBJECT ${sources})

@@ -26,12 +26,16 @@ figure::figure(std::string proc, uint16_t chapter, uint16_t fig_num, std::vector
 
 }
 
+// Macro
+macro::macro(std::string name, std::string text): name(name), text(text) {}
+
 // Registry
 void registry::add_figure(figure figure)
 {
 	//std::cout << figure.proc << " " << figure.chapter << "." << figure.fig_num << std::endl;
 	_figures.emplace_back(figure);
 }
+
 
 std::optional<figure> registry::find(std::string proc, uint16_t chapter, uint16_t fig_num) const
 {
@@ -40,10 +44,30 @@ std::optional<figure> registry::find(std::string proc, uint16_t chapter, uint16_
 	else return std::nullopt;
 	
 }
+
 const std::vector<figure>& registry::figures() const
 {
 	return _figures;
 }
+
+void registry::add_macro(macro macro)
+{
+	_macros.emplace_back(macro);
+}
+
+std::optional<macro> registry::find(std::string macro_name) const
+{
+	auto match = [=](const macro& mac){ return mac.name == macro_name;};
+	if(auto val = std::find_if(_macros.begin(), _macros.end(), match); val!=_macros.end()) return *val;
+	else return std::nullopt;
+	
+}
+
+const std::vector<macro>& registry::macros() const
+{
+	return _macros;
+}
+
 registry& registry::instance() {
 	if(_instance == nullptr) _instance = new registry();
 	return *_instance;

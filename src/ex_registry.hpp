@@ -41,6 +41,12 @@ struct figure
 	const std::map<element_type, std::string> elements;
 };
 
+struct macro
+{
+	macro(std::string name, std::string text);
+	const std::string name, text;
+};
+
 class registry
 {
 public:
@@ -48,8 +54,13 @@ public:
 	void add_figure(figure fig);
 	std::optional<figure> find(std::string proc, uint16_t chapter, uint16_t figure) const;
 	const std::vector<figure>& figures() const;
+
+	void add_macro(macro mac);
+	std::optional<macro> find(std::string macro_name) const;
+	const std::vector<macro>& macros() const;
 private:
 	static registry* _instance;
 	registry();
 	std::vector<figure> _figures;
+	std::vector<macro> _macros;
 };
