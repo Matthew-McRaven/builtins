@@ -634,9 +634,6 @@ exitPrnt:RET
 ;******* Vectors for system memory map
          .WORD osRAM       ;User stack pointer
          .WORD wordTemp    ;System stack pointer
-         .WORD diskIn      ;Memory-mapped disk input device
-         .WORD charIn      ;Memory-mapped input device
-         .WORD charOut     ;Memory-mapped output device
          .WORD pwrOff      ;Memory-mapped power off device
          .WORD disp        ;Dispatcher program counter
          .WORD loader      ;Loader program counter
