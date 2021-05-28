@@ -7,21 +7,19 @@ false:   .EQUATE 0
 ;
 ;******* Operating system RAM
 osRAM:   .BLOCK  128         ;System stack area
-         .ALIGN  2           ;System stack at even address
 wordTemp:.BLOCK  1           ;Temporary word storage #1h
 byteTemp:.BLOCK  1           ;Least significant byte of wordTemp #1h
 osSPTemp:.BLOCK  2           ;Store system stack pointer when calling user program #2h.
 addrMask:.BLOCK  2           ;Addressing mode mask #2h.
 opAddr:  .BLOCK  2           ;Trap instruction operand address #2h.
 ;Do not allow diskIn to be referenced in user programs.
-diskIn:  .BLOCK  2           ;Memory-mapped input device #2h.
+diskIn:  .BLOCK  1           ;Memory-mapped input device #2h.
          .EXPORT charIn      ;Allow charIn to be referenced in user programs.
-charIn:  .BLOCK  2           ;Memory-mapped input device #2h.
+charIn:  .BLOCK  1           ;Memory-mapped input device #2h.
          .EXPORT charOut     ;Allow charIn to be referenced in user programs.
-charOut: .BLOCK  2           ;Memory-mapped output device #2h.
-         .EXPORT pwrOff      ;Allow pwroff to be referenced in user programs.
-pwrOff:  .BLOCK  2           ;Memory-mapped shutdown device #2h.
-         .ALIGN  2           ;I/O ports at even addresses
+charOut: .BLOCK  1           ;Memory-mapped output device #2h.
+         .EXPORT pwrOff      ;Allow pwrOff to be referenced in user programs.
+pwrOff:  .BLOCK  1           ;Memory-mapped shutdown device #2h.
 ;******* Operating system ROM
          .BURN   0xFFFF      
 ;
