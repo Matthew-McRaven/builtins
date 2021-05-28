@@ -31,7 +31,7 @@ doExec:  .EQUATE 0x0002      ;System entry point will execute the program
 
 ;
 ;******* System Entry Point
-start:   LDWX    0,i         ;X <- 0
+disp:    LDWX    0,i         ;X <- 0
          LDWA    strtFlg,d   ;Load start flags
          ANDA    doLoad,i    ;Check if the start flags indicate 
          BREQ    callMain    ;  loading is to be performed
@@ -638,7 +638,7 @@ exitPrnt:RET
          .WORD charIn      ;Memory-mapped input device
          .WORD charOut     ;Memory-mapped output device
          .WORD pwrOff      ;Memory-mapped power off device
-         .WORD start       ;Entry point program counter
+         .WORD disp        ;Dispatcher program counter
          .WORD loader      ;Loader program counter
          .WORD trap        ;Trap program counter
 ;
