@@ -7,6 +7,6 @@ malloc:  LDWX    hpPtr,d     ;returned pointer
          ADDA    hpPtr,d     ;allocate from heap
          STWA    hpPtr,d     ;update hpPtr
          RET                 
-hpPtr:   .ADDRSS heap        ;address of next free byte
+hpPtr:   .WORD heap          ;address of next free byte
 heap:    .BLOCK  1           ;first byte in the heap
 .END
