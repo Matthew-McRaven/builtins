@@ -34,9 +34,11 @@ struct test
 
 struct figure
 {
-	figure(std::string proc, uint16_t chapter, uint16_t fig_num, std::vector<test> tests, std::map<element_type, std::string> elements);
+	figure(std::string proc, uint16_t chapter, std::string fig, std::vector<test> tests, std::map<element_type, std::string> elements);
 	const std::string proc;
-	const uint16_t chapter, fig_num;
+	const uint16_t chapter;
+	// Must not be named the same as the class.
+	std::string fig;
 	const std::vector<test> tests;
 	const std::map<element_type, std::string> elements;
 };
@@ -52,7 +54,7 @@ class registry
 public:
 	static registry& instance();
 	void add_figure(figure fig);
-	std::optional<figure> find(std::string proc, uint16_t chapter, uint16_t figure) const;
+	std::optional<figure> find(std::string proc, uint16_t chapter, std::string figure) const;
 	const std::vector<figure>& figures() const;
 
 	void add_macro(macro mac);

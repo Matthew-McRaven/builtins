@@ -1,1 +1,1 @@
-add_subdirectory(count_entries)
+add_subdirectory(figures_present)

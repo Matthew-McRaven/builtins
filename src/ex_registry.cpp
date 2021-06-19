@@ -20,8 +20,8 @@ test::test(std::string output, std::string input): output(output), input(input)
 }
 
 // Figure
-figure::figure(std::string proc, uint16_t chapter, uint16_t fig_num, std::vector<test> tests, std::map<element_type, std::string> elements):
-	proc(proc), chapter(chapter), fig_num(fig_num), tests(tests), elements(elements)
+figure::figure(std::string proc, uint16_t chapter, std::string fig, std::vector<test> tests, std::map<element_type, std::string> elements):
+	proc(proc), chapter(chapter), fig(fig), tests(tests), elements(elements)
 {
 
 }
@@ -37,9 +37,9 @@ void registry::add_figure(figure figure)
 }
 
 
-std::optional<figure> registry::find(std::string proc, uint16_t chapter, uint16_t fig_num) const
+std::optional<figure> registry::find(std::string proc, uint16_t chapter, std::string figure) const
 {
-	auto match = [=](const figure& fig){ return fig.proc==proc && fig.chapter==chapter && fig.fig_num==fig_num;};
+	auto match = [=](const struct figure& fig){ return fig.proc==proc && fig.chapter==chapter && fig.fig==figure;};
 	if(auto val = std::find_if(_figures.begin(), _figures.end(), match); val!=_figures.end()) return *val;
 	else return std::nullopt;
 	
