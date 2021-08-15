@@ -13,11 +13,18 @@ osSPTemp:.BLOCK  2           ;Store system stack pointer when calling user progr
 addrMask:.BLOCK  2           ;Addressing mode mask #2h.
 opAddr:  .BLOCK  2           ;Trap instruction operand address #2h.
 ;Do not allow diskIn to be referenced in user programs.
+         .INPUT  diskIn      ;Mark diskIn as a memory-mapped input device
 diskIn:  .BLOCK  1           ;Memory-mapped input device #2h.
+
          .EXPORT charIn      ;Allow charIn to be referenced in user programs.
+         .INPUT  charIn      ;Mark charIn as a memory-mapped input device
 charIn:  .BLOCK  1           ;Memory-mapped input device #2h.
-         .EXPORT charOut     ;Allow charIn to be referenced in user programs.
+
+         .EXPORT charOut     ;Allow charOut to be referenced in user programs.
+         .OUTPUT charOut     ;Mark charOut as a memory-mapped output device
 charOut: .BLOCK  1           ;Memory-mapped output device #2h.
+
+         .OUTPUT pwrOff      ;Mark pwfOff as a memory-mapped output device
          .EXPORT pwrOff      ;Allow pwrOff to be referenced in user programs.
 pwrOff:  .BLOCK  1           ;Memory-mapped shutdown device #2h.
 ;******* Operating system ROM
